@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BlockingController extends Controller
 {
     /**
-     * @Route("/block/{type}/{id}", name="blocking_block")
+     * @Route("/block/{type}/{id}", name="brainbits_blocking_block")
      */
     public function blockAction($type, $id)
     {
@@ -52,7 +52,7 @@ class BlockingController extends Controller
     }
 
     /**
-     * @Route("/unblock/{type}/{id}", name="blocking_unblock")
+     * @Route("/unblock/{type}/{id}", name="brainbits_blocking_unblock")
      */
     public function unblockAction($type, $id)
     {
