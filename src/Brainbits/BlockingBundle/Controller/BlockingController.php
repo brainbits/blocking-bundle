@@ -33,21 +33,12 @@ class BlockingController extends Controller
         try {
             $blocker->block($identifier);
 
-            $response = new JsonResponse(array(
-                'success' => true,
-                'type'    => $type,
-                'id'      => $id,
-            ));
+            $result = array('success' => true, 'type' => $type, 'id' => $id);
         } catch (\Exception $e) {
-            $response = new JsonResponse(array(
-                'success' => false,
-                'message' => $e->getMessage(),
-                'type'    => $type,
-                'id'      => $id,
-            ));
+            $result = array('success' => false, 'message' => $e->getMessage(), 'type' => $type, 'id' => $id);
         }
 
-        return $response;
+        return new JsonResponse($result);
     }
 
     /**
@@ -61,20 +52,11 @@ class BlockingController extends Controller
         try {
             $blocker->unblock($identifier);
 
-            $response = new JsonResponse(array(
-                'success' => true,
-                'type'    => $type,
-                'id'      => $id,
-            ));
+            $result = array('success' => true, 'type' => $type, 'id' => $id);
         } catch (\Exception $e) {
-            $response = new JsonResponse(array(
-                'success' => false,
-                'message' => $e->getMessage(),
-                'type'    => $type,
-                'id'      => $id,
-            ));
+            $result = array('success' => false, 'message' => $e->getMessage(), 'type' => $type, 'id' => $id);
         }
 
-        return $response;
+        return new JsonResponse($result);
     }
 }
