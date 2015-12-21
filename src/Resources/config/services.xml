@@ -32,6 +32,10 @@
             <argument type="service" id="brainbits.blocking.validator" />
         </service>
 
+        <service id="brainbits.blocking.controller" class="Brainbits\Blocking\Controller\BlockingController">
+            <argument type="service" id="brainbits.blocking.blocker" />
+        </service>
+
     </services>
 
 </container>
