@@ -4,7 +4,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-
     <parameters>
         <parameter key="brainbits.blocking.adapter.classname">Brainbits\Blocking\Adapter\FilesystemAdapter</parameter>
         <parameter key="brainbits.blocking.owner.classname">Brainbits\Blocking\Owner\SessionOwner</parameter>
@@ -31,6 +30,10 @@
             <argument type="service" id="brainbits.blocking.adapter" />
             <argument type="service" id="brainbits.blocking.owner" />
             <argument type="service" id="brainbits.blocking.validator" />
+        </service>
+
+        <service id="brainbits.blocking.controller" class="Brainbits\Blocking\Controller\BlockingController">
+            <argument type="service" id="brainbits.blocking.blocker" />
         </service>
 
     </services>
