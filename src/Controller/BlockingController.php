@@ -16,7 +16,7 @@ use Brainbits\Blocking\Identifier\Identifier;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * Index controller
+ * Blocking controller
  */
 class BlockingController
 {
