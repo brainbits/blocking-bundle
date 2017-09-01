@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the brainbits blocking bundle.
  *
@@ -14,9 +16,7 @@ namespace Brainbits\BlockingBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Blocking bundle
- *
- * @author Stephan Wentz <swentz@brainbits.net>
+ * Blocking bundle.
  */
 class BrainbitsBlockingBundle extends Bundle
 {

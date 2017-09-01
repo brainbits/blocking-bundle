@@ -15,9 +15,7 @@ use Brainbits\BlockingBundle\DependencyInjection\BrainbitsBlockingExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
 /**
- * Extension test
- *
- * @author Stephan Wentz <swentz@brainbits.net>
+ * Extension test.
  */
 class BrainbitsTranscoderExtensionTest extends AbstractExtensionTestCase
 {

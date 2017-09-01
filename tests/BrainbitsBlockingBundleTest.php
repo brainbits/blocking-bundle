@@ -12,13 +12,10 @@
 namespace Brainbits\BlockingBundle\Tests;
 
 use Brainbits\BlockingBundle\BrainbitsBlockingBundle;
-use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Blocking bundle test
- *
- * @author Stephan Wentz <swentz@brainbits.net>
+ * Blocking bundle test.
  */
 class BrainbitsBlockingBundleTest extends \PHPUnit_Framework_TestCase
 {
