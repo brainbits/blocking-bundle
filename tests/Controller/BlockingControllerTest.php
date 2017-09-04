@@ -9,31 +9,49 @@
  * file that was distributed with this source code.
  */
 
-namespace Brainbits\BlockingBundle\Controller;
+namespace Brainbits\BlockingBundle\Tests\Controller;
 
+use Brainbits\Blocking\Storage\InMemoryStorage;
+use Brainbits\Blocking\Block;
+use Brainbits\Blocking\Identifier\Identifier;
+use Brainbits\Blocking\Owner\ValueOwner;
+use Brainbits\Blocking\Validator\ExpiredValidator;
+use Brainbits\BlockingBundle\Controller\BlockingController;
 use Brainbits\Blocking\Blocker;
+use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Index controller
  */
-class BlockingControllerTest extends \PHPUnit_Framework_TestCase
+class BlockingControllerTest extends TestCase
 {
     /**
      * @var BlockingController
      */
     private $controller;
 
-    public function setUp()
+    protected function setUp()
     {
-        $blocker = $this->prophesize(Blocker::class);
+        $block = new Block(
+            new Identifier('foo'),
+            new ValueOwner('baz'),
+            new DateTimeImmutable()
+        );
 
-        $this->controller = new BlockingController($blocker->reveal());
+        $blocker = new Blocker(
+            new InMemoryStorage($block),
+            new ValueOwner('bar'),
+            new ExpiredValidator(10)
+        );
+
+        $this->controller = new BlockingController($blocker);
     }
 
-    public function testBlockAction()
+    public function testBlockSuccessAction()
     {
-        $response = $this->controller->blockAction('a', 'b');
+        $response = $this->controller->blockAction('new');
 
         $this->assertInstanceOf(JsonResponse::class, $response);
 
@@ -42,14 +60,36 @@ class BlockingControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($result['success']);
     }
 
-    public function testUnblockAction()
+    public function testBlockFailureAction()
     {
-        $response = $this->controller->unblockAction('a', 'b');
+        $response = $this->controller->blockAction('foo');
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+
+        $result = json_decode($response->getContent(), true);
+
+        $this->assertFalse($result['success']);
+    }
+
+    public function testUnblockSuccessAction()
+    {
+        $response = $this->controller->unblockAction('foo');
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         
         $result = json_decode($response->getContent(), true);
 
         $this->assertTrue($result['success']);
+    }
+
+    public function testUnblockFailureAction()
+    {
+        $response = $this->controller->unblockAction('new');
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+
+        $result = json_decode($response->getContent(), true);
+
+        $this->assertFalse($result['success']);
     }
 }

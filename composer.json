@@ -11,23 +11,25 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "brainbits/blocking": "^2.0.1"
+        "php": "^7.1",
+        "brainbits/blocking": "^3.0"
     },
     "require-dev": {
-        "php": ">=5.5.0",
-        "phpunit/phpunit": "~4.5",
-        "symfony/config": "^2.3",
-        "symfony/dependency-injection": "^2.3",
-        "symfony/http-kernel": "^2.3",
-        "symfony/routing": "^2.3",
-        "matthiasnoback/symfony-dependency-injection-test": "^0.7.6"
+        "phpunit/phpunit": "~5.0",
+        "symfony/config": "^2.8|^3.0",
+        "symfony/dependency-injection": "^2.8|^3.0",
+        "symfony/http-kernel": "^2.8|^3.0",
+        "symfony/routing": "^2.8|^3.0",
+        "matthiasnoback/symfony-dependency-injection-test": "^2.0"
     },
     "autoload": {
         "psr-4": { "Brainbits\\BlockingBundle\\": "src/" }
     },
-    "autoload-dev": {
-        "psr-4": { "Brainbits\\BlockingBundle\\Tests\\": "tests/" }
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0-dev"
+        }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

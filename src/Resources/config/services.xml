@@ -4,35 +4,27 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="brainbits.blocking.adapter.classname">Brainbits\Blocking\Adapter\FilesystemAdapter</parameter>
-        <parameter key="brainbits.blocking.owner.classname">Brainbits\Blocking\Owner\SessionOwner</parameter>
-        <parameter key="brainbits.blocking.validator.classname">Brainbits\Blocking\Validator\ExpiredValidator</parameter>
-        <parameter key="brainbits.blocking.validator.expiration_time">300</parameter>
-        <parameter key="brainbits.blocking.interval">30</parameter>
-    </parameters>
-
     <services>
 
-        <service id="brainbits.blocking.adapter" class="%brainbits.blocking.adapter.classname%">
+        <service id="brainbits.blocking.filesystem_adapter" class="Brainbits\Blocking\Adapter\FilesystemAdapter">
             <argument>%kernel.cache_dir%/blocks/</argument>
         </service>
 
-        <service id="brainbits.blocking.owner" class="%brainbits.blocking.owner.classname%">
+        <service id="brainbits.blocking.session_owner" class="Brainbits\Blocking\Owner\SymfonySessionOwner">
             <argument type="service" id="session" />
         </service>
 
-        <service id="brainbits.blocking.validator" class="%brainbits.blocking.validator.classname%">
+        <service id="brainbits.blocking.expired_validator" class="Brainbits\Blocking\Validator\ExpiredValidator">
             <argument>%brainbits.blocking.validator.expiration_time%</argument>
         </service>
 
         <service id="brainbits.blocking.blocker" class="Brainbits\Blocking\Blocker">
-            <argument type="service" id="brainbits.blocking.adapter" />
-            <argument type="service" id="brainbits.blocking.owner" />
-            <argument type="service" id="brainbits.blocking.validator" />
+            <argument type="service" id="brainbits.blocking.filesystem_adapter" />
+            <argument type="service" id="brainbits.blocking.session_owner" />
+            <argument type="service" id="brainbits.blocking.expired_validator" />
         </service>
 
-        <service id="brainbits.blocking.controller" class="Brainbits\BlockingBundle\Controller\BlockingController">
+        <service id="brainbits.blocking.controller" class="Brainbits\Blocking\Controller\BlockingController">
             <argument type="service" id="brainbits.blocking.blocker" />
         </service>
 

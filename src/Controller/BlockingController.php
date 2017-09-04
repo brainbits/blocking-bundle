@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the brainbits blocking bundle.
  *
@@ -16,64 +18,36 @@ use Brainbits\Blocking\Identifier\Identifier;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * Blocking controller
+ * Blocking controller.
  */
 class BlockingController
 {
-    /**
-     * @var Blocker
-     */
     private $blocker;
 
-    /**
-     * BlockingController constructor.
-     *
-     * @param Blocker $blocker
-     */
     public function __construct(Blocker $blocker)
     {
         $this->blocker = $blocker;
     }
 
-    /**
-     * @param string $type
-     * @param string $id
-     *
-     * @return JsonResponse
-     */
-    public function blockAction($type, $id)
+    public function blockAction(string $identifier): JsonResponse
     {
-        $identifier = new Identifier($type, $id);
+        $identifier = new Identifier($identifier);
 
-        try {
-            $this->blocker->block($identifier);
+        $block = $this->blocker->tryBlock($identifier);
 
-            $result = array('success' => true, 'type' => $type, 'id' => $id);
-        } catch (\Exception $e) {
-            $result = array('success' => false, 'message' => $e->getMessage(), 'type' => $type, 'id' => $id);
-        }
-
-        return new JsonResponse($result);
+        return new JsonResponse([
+            'success' => !!$block
+        ]);
     }
 
-    /**
-     * @param string $type
-     * @param string $id
-     *
-     * @return JsonResponse
-     */
-    public function unblockAction($type, $id)
+    public function unblockAction(string $identifier): JsonResponse
     {
-        $identifier = new Identifier($type, $id);
+        $identifier = new Identifier($identifier);
 
-        try {
-            $this->blocker->unblock($identifier);
+        $block = $this->blocker->unblock($identifier);
 
-            $result = array('success' => true, 'type' => $type, 'id' => $id);
-        } catch (\Exception $e) {
-            $result = array('success' => false, 'message' => $e->getMessage(), 'type' => $type, 'id' => $id);
-        }
-
-        return new JsonResponse($result);
+        return new JsonResponse([
+            'success' => !!$block
+        ]);
     }
 }
