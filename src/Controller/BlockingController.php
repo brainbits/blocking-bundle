@@ -36,7 +36,7 @@ class BlockingController
         $block = $this->blocker->tryBlock($identifier);
 
         return new JsonResponse([
-            'success' => !!$block
+            'success' => !!$block,
         ]);
     }
 
@@ -47,7 +47,7 @@ class BlockingController
         $block = $this->blocker->unblock($identifier);
 
         return new JsonResponse([
-            'success' => !!$block
+            'success' => !!$block,
         ]);
     }
 }
