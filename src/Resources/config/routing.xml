@@ -4,11 +4,11 @@
         xsi:schemaLocation="http://symfony.com/schema/routing
         http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="brainbits_blocking_block" path="/blocking/block/{type}/{id}">
+    <route id="brainbits_blocking_block" path="/blocking/block/{identifier}">
         <default key="_controller">brainbits.blocking.controller:blockAction</default>
     </route>
 
-    <route id="brainbits_blocking_unblock" path="/blocking/unblock/{type}/{id}">
+    <route id="brainbits_blocking_unblock" path="/blocking/unblock/{identifier}">
         <default key="_controller">brainbits.blocking.controller:unblockAction</default>
     </route>
 
