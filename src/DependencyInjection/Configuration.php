@@ -26,10 +26,76 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('brainbits_blocking');
 
+        $storageDrivers = ['filesystem', 'in_memory', 'custom'];
+        $ownerDrivers = ['symfony_session', 'value', 'custom'];
+        $validatorDrivers = ['expired', 'always_invalidate', 'custom'];
+
         $rootNode
             ->children()
-                ->integerNode('expiration_time')->defaultValue(300)->end()
                 ->integerNode('block_interval')->defaultValue(30)->end()
+                ->arrayNode('storage')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('driver')
+                            ->validate()
+                                ->ifNotInArray($storageDrivers)
+                                ->thenInvalid('The storage driver %s is not supported. Please choose one of '.json_encode($storageDrivers))
+                            ->end()
+                            ->defaultValue('filesystem')
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->scalarNode('service')->end()
+                        ->scalarNode('storage_dir')->defaultValue('%kernel.cache_dir%/blocking/')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('owner')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('driver')
+                            ->validate()
+                                ->ifNotInArray($ownerDrivers)
+                                ->thenInvalid('The owner driver %s is not supported. Please choose one of '.json_encode($ownerDrivers))
+                            ->end()
+                            ->defaultValue('symfony_session')
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->scalarNode('service')->end()
+                        ->scalarNode('value')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('validator')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('driver')
+                            ->validate()
+                                ->ifNotInArray($validatorDrivers)
+                                ->thenInvalid('The validator driver %s is not supported. Please choose one of '.json_encode($validatorDrivers))
+                            ->end()
+                            ->defaultValue('expired')
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->scalarNode('service')->end()
+                        ->integerNode('expiration_time')->defaultValue(300)->end()
+                    ->end()
+                ->end()
+            ->end()
+            ->validate()
+                ->ifTrue(function ($v) {
+                    return 'custom' === $v['storage']['driver'] && empty($v['storage']['service']);
+                })
+                ->thenInvalid('You need to specify your own storage service when using the "custom" storage driver.')
+            ->end()
+            ->validate()
+                ->ifTrue(function ($v) {
+                    return 'custom' === $v['owner']['driver'] && empty($v['owner']['service']);
+                })
+                ->thenInvalid('You need to specify your own owner service when using the "custom" owner driver.')
+            ->end()
+            ->validate()
+                ->ifTrue(function ($v) {
+                    return 'custom' === $v['validator']['driver'] && empty($v['validator']['service']);
+                })
+                ->thenInvalid('You need to specify your own validator service when using the "custom" validator driver.')
             ->end();
 
         return $treeBuilder;

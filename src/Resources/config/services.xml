@@ -6,26 +6,18 @@
 
     <services>
 
-        <service id="brainbits.blocking.filesystem_storage" class="Brainbits\Blocking\Storage\FilesystemStorage">
+        <service id="brainbits_blocking.filesystem_storage" class="Brainbits\Blocking\Storage\FilesystemStorage">
             <argument>%kernel.cache_dir%/blocks/</argument>
         </service>
 
-        <service id="brainbits.blocking.session_owner" class="Brainbits\Blocking\Owner\SymfonySessionOwner">
-            <argument type="service" id="session" />
+        <service id="brainbits_blocking.blocker" class="Brainbits\Blocking\Blocker">
+            <argument type="service" id="brainbits_blocking.storage" />
+            <argument type="service" id="brainbits_blocking.owner" />
+            <argument type="service" id="brainbits_blocking.validator" />
         </service>
 
-        <service id="brainbits.blocking.expired_validator" class="Brainbits\Blocking\Validator\ExpiredValidator">
-            <argument>%brainbits.blocking.validator.expiration_time%</argument>
-        </service>
-
-        <service id="brainbits.blocking.blocker" class="Brainbits\Blocking\Blocker">
-            <argument type="service" id="brainbits.blocking.filesystem_storage" />
-            <argument type="service" id="brainbits.blocking.session_owner" />
-            <argument type="service" id="brainbits.blocking.expired_validator" />
-        </service>
-
-        <service id="brainbits.blocking.controller" class="Brainbits\BlockingBundle\Controller\BlockingController">
-            <argument type="service" id="brainbits.blocking.blocker" />
+        <service id="brainbits_blocking.controller" class="Brainbits\BlockingBundle\Controller\BlockingController">
+            <argument type="service" id="brainbits_blocking.blocker" />
         </service>
 
     </services>
