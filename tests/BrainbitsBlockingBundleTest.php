@@ -12,19 +12,17 @@
 namespace Brainbits\BlockingBundle\Tests;
 
 use Brainbits\BlockingBundle\BrainbitsBlockingBundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Blocking bundle test.
  */
-class BrainbitsBlockingBundleTest extends \PHPUnit_Framework_TestCase
+class BrainbitsBlockingBundleTest extends TestCase
 {
-    public function testBuild()
+    public function testConstructor()
     {
         $bundle = new BrainbitsBlockingBundle();
 
-        $container = $this->prophesize(ContainerBuilder::class);
-
-        $bundle->build($container->reveal());
+        $this->assertInstanceOf(BrainbitsBlockingBundle::class, $bundle);
     }
 }
