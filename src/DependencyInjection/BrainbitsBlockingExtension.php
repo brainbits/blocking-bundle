@@ -32,6 +32,6 @@ class BrainbitsBlockingExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('brainbits.blocking.validator.expiration_time', $config['expiration_time']);
-        $container->setParameter('brainbits.blocking.interval', $config['expiration_time']);
+        $container->setParameter('brainbits.blocking.interval', $config['block_interval']);
     }
 }

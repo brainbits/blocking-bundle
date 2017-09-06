@@ -29,5 +29,16 @@ class BrainbitsTranscoderExtensionTest extends AbstractExtensionTestCase
     public function testContainerHasDefaultParameters()
     {
         $this->load();
+
+        $this->assertContainerBuilderHasParameter('brainbits.blocking.validator.expiration_time', 300);
+        $this->assertContainerBuilderHasParameter('brainbits.blocking.interval', 30);
+    }
+
+    public function testContainerHasCustomParameters()
+    {
+        $this->load(['expiration_time' => 8, 'block_interval' => 9]);
+
+        $this->assertContainerBuilderHasParameter('brainbits.blocking.validator.expiration_time', 8);
+        $this->assertContainerBuilderHasParameter('brainbits.blocking.interval', 9);
     }
 }
