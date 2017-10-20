@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * This file is part of the brainbits blocking bundle.
@@ -25,13 +25,34 @@ class BrainbitsBlockingExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('brainbits.blocking.validator.expiration_time', $config['expiration_time']);
-        $container->setParameter('brainbits.blocking.interval', $config['block_interval']);
+        $container->setParameter(
+            'brainbits_blocking.validator.expiration_time',
+            $config['validator']['expiration_time']
+        );
+        $container->setParameter('brainbits_blocking.interval', $config['block_interval']);
+
+        if ('custom' !== $config['validator']['driver']) {
+            $loader->load(sprintf('validator/%s.xml', $config['validator']['driver']));
+        } else {
+            $container->setAlias('brainbits_blocking.validator', $config['validator']['service']);
+        }
+
+        if ('custom' !== $config['storage']['driver']) {
+            $loader->load(sprintf('storage/%s.xml', $config['storage']['driver']));
+        } else {
+            $container->setAlias('brainbits_blocking.storage', $config['storage']['service']);
+        }
+
+        if ('custom' !== $config['owner']['driver']) {
+            $loader->load(sprintf('owner/%s.xml', $config['owner']['driver']));
+        } else {
+            $container->setAlias('brainbits_blocking.owner', $config['owner']['service']);
+        }
     }
 }
