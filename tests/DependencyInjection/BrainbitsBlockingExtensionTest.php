@@ -12,24 +12,25 @@
 namespace Brainbits\BlockingBundle\Tests\DependencyInjection;
 
 use Brainbits\Blocking\Owner\SymfonySessionOwner;
+use Brainbits\Blocking\Owner\SymfonySessionOwnerFactory;
 use Brainbits\Blocking\Owner\ValueOwner;
+use Brainbits\Blocking\Owner\ValueOwnerFactory;
 use Brainbits\Blocking\Storage\FilesystemStorage;
 use Brainbits\Blocking\Storage\InMemoryStorage;
 use Brainbits\Blocking\Validator\ExpiredValidator;
 use Brainbits\BlockingBundle\DependencyInjection\BrainbitsBlockingExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
-use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
  * Extension test.
  */
-class BrainbitsTranscoderExtensionTest extends AbstractExtensionTestCase
+class BrainbitsBlockingExtensionTest extends AbstractExtensionTestCase
 {
     protected function getContainerExtensions()
     {
-        return array(
+        return [
             new BrainbitsBlockingExtension()
-        );
+        ];
     }
 
     public function testContainerHasDefaultParameters()
@@ -37,7 +38,7 @@ class BrainbitsTranscoderExtensionTest extends AbstractExtensionTestCase
         $this->load();
 
         $this->assertContainerBuilderHasService('brainbits_blocking.storage', FilesystemStorage::class);
-        $this->assertContainerBuilderHasService('brainbits_blocking.owner', SymfonySessionOwner::class);
+        $this->assertContainerBuilderHasService('brainbits_blocking.owner_factory', SymfonySessionOwnerFactory::class);
         $this->assertContainerBuilderHasService('brainbits_blocking.validator', ExpiredValidator::class);
         $this->assertContainerBuilderHasParameter('brainbits_blocking.validator.expiration_time', 300);
         $this->assertContainerBuilderHasParameter('brainbits_blocking.interval', 30);
@@ -49,7 +50,7 @@ class BrainbitsTranscoderExtensionTest extends AbstractExtensionTestCase
             'storage' => [
                 'driver' => 'in_memory',
             ],
-            'owner' => [
+            'owner_factory' => [
                 'driver' => 'value',
                 'value' => 'xx',
             ],
@@ -60,7 +61,7 @@ class BrainbitsTranscoderExtensionTest extends AbstractExtensionTestCase
         ]);
 
         $this->assertContainerBuilderHasService('brainbits_blocking.storage', InMemoryStorage::class);
-        $this->assertContainerBuilderHasService('brainbits_blocking.owner', ValueOwner::class);
+        $this->assertContainerBuilderHasService('brainbits_blocking.owner_factory', ValueOwnerFactory::class);
         $this->assertContainerBuilderHasService('brainbits_blocking.validator', ExpiredValidator::class);
         $this->assertContainerBuilderHasParameter('brainbits_blocking.validator.expiration_time', 8);
         $this->assertContainerBuilderHasParameter('brainbits_blocking.interval', 9);
@@ -81,13 +82,13 @@ class BrainbitsTranscoderExtensionTest extends AbstractExtensionTestCase
     public function testCustomOwnerService()
     {
         $this->load([
-            'owner' => [
+            'owner_factory' => [
                 'driver' => 'custom',
                 'service' => 'bar',
             ],
         ]);
 
-        $this->assertContainerBuilderHasAlias('brainbits_blocking.owner', 'bar');
+        $this->assertContainerBuilderHasAlias('brainbits_blocking.owner_factory', 'bar');
     }
 
     public function testCustomValidatorService()

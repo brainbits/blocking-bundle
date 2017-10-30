@@ -6,8 +6,8 @@
 
     <services>
 
-        <service id="brainbits_blocking.owner" class="Brainbits\Blocking\Owner\ValueOwner">
-            <argument>%brainbits_blocking.owner.value%</argument>
+        <service id="brainbits_blocking.owner_factory" class="Brainbits\Blocking\Owner\SymfonySessionOwnerFactory">
+            <argument type="service" id="session" />
         </service>
 
     </services>
