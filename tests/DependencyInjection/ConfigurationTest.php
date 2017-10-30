@@ -47,7 +47,7 @@ class ConfigurationTest extends TestCase
                     'driver' => 'filesystem',
                     'storage_dir' => '%kernel.cache_dir%/blocking/',
                 ],
-                'owner' => [
+                'owner_factory' => [
                     'driver' => 'symfony_session',
                 ],
                 'validator' => [
@@ -68,7 +68,7 @@ class ConfigurationTest extends TestCase
                         'driver' => 'in_memory',
                         'storage_dir' => 'foo',
                     ],
-                    'owner' => [
+                    'owner_factory' => [
                         'driver' => 'value',
                         'value' => 'bar',
                     ],
@@ -84,7 +84,7 @@ class ConfigurationTest extends TestCase
                     'driver' => 'in_memory',
                     'storage_dir' => 'foo',
                 ],
-                'owner' => [
+                'owner_factory' => [
                     'driver' => 'value',
                     'value' => 'bar',
                 ],
@@ -147,7 +147,7 @@ class ConfigurationTest extends TestCase
                     'storage_dir' => '%kernel.cache_dir%/blocking/',
                     'service' => 'foo',
                 ],
-                'owner' => [
+                'owner_factory' => [
                     'driver' => 'symfony_session',
                 ],
                 'validator' => [
@@ -166,7 +166,7 @@ class ConfigurationTest extends TestCase
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'owner' => [
+                    'owner_factory' => [
                         'driver' => 'test',
                     ],
                 ],
@@ -178,12 +178,12 @@ class ConfigurationTest extends TestCase
     public function testMissingCustomOwnerService()
     {
         $this->expectException(InvalidConfigurationException::class);
-        $this->expectExceptionMessage('Invalid configuration for path "brainbits_blocking": You need to specify your own owner service when using the "custom" owner driver.');
+        $this->expectExceptionMessage('Invalid configuration for path "brainbits_blocking": You need to specify your own owner_factory service when using the "custom" owner_factory driver.');
 
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'owner' => [
+                    'owner_factory' => [
                         'driver' => 'custom',
                     ],
                 ],
@@ -197,7 +197,7 @@ class ConfigurationTest extends TestCase
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'owner' => [
+                    'owner_factory' => [
                         'driver' => 'custom',
                         'service' => 'foo',
                     ],
@@ -208,7 +208,7 @@ class ConfigurationTest extends TestCase
                     'driver' => 'filesystem',
                     'storage_dir' => '%kernel.cache_dir%/blocking/',
                 ],
-                'owner' => [
+                'owner_factory' => [
                     'driver' => 'custom',
                     'service' => 'foo',
                 ],
@@ -224,12 +224,12 @@ class ConfigurationTest extends TestCase
     public function testInvalidValidatorDriver()
     {
         $this->expectException(InvalidConfigurationException::class);
-        $this->expectExceptionMessage('Invalid configuration for path "brainbits_blocking.owner.driver": The owner driver "test" is not supported. Please choose one of ["symfony_session","value","custom"]');
+        $this->expectExceptionMessage('Invalid configuration for path "brainbits_blocking.validator.driver": The validator driver "test" is not supported. Please choose one of ["expired","always_invalidate","custom"]');
 
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'owner' => [
+                    'validator' => [
                         'driver' => 'test',
                     ],
                 ],
@@ -271,7 +271,7 @@ class ConfigurationTest extends TestCase
                     'driver' => 'filesystem',
                     'storage_dir' => '%kernel.cache_dir%/blocking/',
                 ],
-                'owner' => [
+                'owner_factory' => [
                     'driver' => 'symfony_session',
                 ],
                 'validator' => [

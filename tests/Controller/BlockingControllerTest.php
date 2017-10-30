@@ -11,13 +11,14 @@
 
 namespace Brainbits\BlockingBundle\Tests\Controller;
 
-use Brainbits\Blocking\Storage\InMemoryStorage;
 use Brainbits\Blocking\Block;
-use Brainbits\Blocking\Identifier\Identifier;
-use Brainbits\Blocking\Owner\ValueOwner;
+use Brainbits\Blocking\Blocker;
+use Brainbits\Blocking\Identity\Identity;
+use Brainbits\Blocking\Owner\Owner;
+use Brainbits\Blocking\Owner\ValueOwnerFactory;
+use Brainbits\Blocking\Storage\InMemoryStorage;
 use Brainbits\Blocking\Validator\ExpiredValidator;
 use Brainbits\BlockingBundle\Controller\BlockingController;
-use Brainbits\Blocking\Blocker;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,14 +36,14 @@ class BlockingControllerTest extends TestCase
     protected function setUp()
     {
         $block = new Block(
-            new Identifier('foo'),
-            new ValueOwner('baz'),
+            new Identity('foo'),
+            new Owner('baz'),
             new DateTimeImmutable()
         );
 
         $blocker = new Blocker(
             new InMemoryStorage($block),
-            new ValueOwner('bar'),
+            new ValueOwnerFactory('bar'),
             new ExpiredValidator(10)
         );
 

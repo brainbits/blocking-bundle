@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('brainbits_blocking');
 
         $storageDrivers = ['filesystem', 'in_memory', 'custom'];
-        $ownerDrivers = ['symfony_session', 'value', 'custom'];
+        $ownerFactoryDrivers = ['symfony_session', 'symfony_token', 'value', 'custom'];
         $validatorDrivers = ['expired', 'always_invalidate', 'custom'];
 
         $rootNode
@@ -48,13 +48,13 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('storage_dir')->defaultValue('%kernel.cache_dir%/blocking/')->end()
                     ->end()
                 ->end()
-                ->arrayNode('owner')
+                ->arrayNode('owner_factory')
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('driver')
                             ->validate()
-                                ->ifNotInArray($ownerDrivers)
-                                ->thenInvalid('The owner driver %s is not supported. Please choose one of '.json_encode($ownerDrivers))
+                                ->ifNotInArray($ownerFactoryDrivers)
+                                ->thenInvalid('The owner_factory driver %s is not supported. Please choose one of '.json_encode($ownerFactoryDrivers))
                             ->end()
                             ->defaultValue('symfony_session')
                             ->cannotBeEmpty()
@@ -87,9 +87,9 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->validate()
                 ->ifTrue(function ($v) {
-                    return 'custom' === $v['owner']['driver'] && empty($v['owner']['service']);
+                    return 'custom' === $v['owner_factory']['driver'] && empty($v['owner_factory']['service']);
                 })
-                ->thenInvalid('You need to specify your own owner service when using the "custom" owner driver.')
+                ->thenInvalid('You need to specify your own owner_factory service when using the "custom" owner_factory driver.')
             ->end()
             ->validate()
                 ->ifTrue(function ($v) {

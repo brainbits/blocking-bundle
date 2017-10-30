@@ -20,6 +20,7 @@
         "symfony/dependency-injection": "^2.8|^3.0",
         "symfony/http-kernel": "^2.8|^3.0",
         "symfony/routing": "^2.8|^3.0",
+        "symfony/security-core": "^2.8|^3.0",
         "matthiasnoback/symfony-dependency-injection-test": "^2.0"
     },
     "autoload": {

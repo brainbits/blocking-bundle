@@ -13,10 +13,10 @@ declare(strict_types = 1);
 
 namespace Brainbits\BlockingBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * brainbits blocking extension.
@@ -31,11 +31,27 @@ class BrainbitsBlockingExtension extends Extension
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter(
-            'brainbits_blocking.validator.expiration_time',
-            $config['validator']['expiration_time']
-        );
-        $container->setParameter('brainbits_blocking.interval', $config['block_interval']);
+        if (isset($config['storage']['storage_dir'])) {
+            $container->setParameter(
+                'brainbits_blocking.storage.storage_dir',
+                $config['storage']['storage_dir']
+            );
+        }
+
+        if (isset($config['owner_factory']['value'])) {
+            $container->setParameter(
+                'brainbits_blocking.owner_factory.value',
+                $config['owner_factory']['value']
+            );
+        }
+
+        if (isset($config['validator']['expiration_time'])) {
+            $container->setParameter(
+                'brainbits_blocking.validator.expiration_time',
+                $config['validator']['expiration_time']
+            );
+            $container->setParameter('brainbits_blocking.interval', $config['block_interval']);
+        }
 
         if ('custom' !== $config['validator']['driver']) {
             $loader->load(sprintf('validator/%s.xml', $config['validator']['driver']));
@@ -49,10 +65,10 @@ class BrainbitsBlockingExtension extends Extension
             $container->setAlias('brainbits_blocking.storage', $config['storage']['service']);
         }
 
-        if ('custom' !== $config['owner']['driver']) {
-            $loader->load(sprintf('owner/%s.xml', $config['owner']['driver']));
+        if ('custom' !== $config['owner_factory']['driver']) {
+            $loader->load(sprintf('owner_factory/%s.xml', $config['owner_factory']['driver']));
         } else {
-            $container->setAlias('brainbits_blocking.owner', $config['owner']['service']);
+            $container->setAlias('brainbits_blocking.owner_factory', $config['owner_factory']['service']);
         }
     }
 }

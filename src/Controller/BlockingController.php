@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Brainbits\BlockingBundle\Controller;
 
 use Brainbits\Blocking\Blocker;
-use Brainbits\Blocking\Identifier\Identifier;
+use Brainbits\Blocking\Identity\Identity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -31,7 +31,7 @@ class BlockingController
 
     public function blockAction(string $identifier): JsonResponse
     {
-        $identifier = new Identifier($identifier);
+        $identifier = new Identity($identifier);
 
         $block = $this->blocker->tryBlock($identifier);
 
@@ -42,7 +42,7 @@ class BlockingController
 
     public function unblockAction(string $identifier): JsonResponse
     {
-        $identifier = new Identifier($identifier);
+        $identifier = new Identity($identifier);
 
         $block = $this->blocker->unblock($identifier);
 
