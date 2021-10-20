@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * This file is part of the brainbits blocking bundle package.
  *
@@ -22,21 +25,21 @@ class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    protected function getConfiguration()
+    protected function getConfiguration(): Configuration
     {
         return new Configuration();
     }
 
-    public function testValuesAreValidIfNoValuesAreProvided()
+    public function testValuesAreValidIfNoValuesAreProvided(): void
     {
         $this->assertConfigurationIsValid(
             [
-                [] // no values at all
+                [], // no values at all
             ]
         );
     }
 
-    public function testDefaultValues()
+    public function testDefaultValues(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -47,9 +50,7 @@ class ConfigurationTest extends TestCase
                     'driver' => 'filesystem',
                     'storage_dir' => '%kernel.cache_dir%/blocking/',
                 ],
-                'owner_factory' => [
-                    'driver' => 'symfony_session',
-                ],
+                'owner_factory' => ['driver' => 'symfony_session'],
                 'validator' => [
                     'driver' => 'expired',
                     'expiration_time' => 300,
@@ -59,7 +60,7 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    public function testProvidedValues()
+    public function testProvidedValues(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -97,40 +98,37 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    public function testInvalidStorageDriver()
+    public function testInvalidStorageDriver(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'storage' => [
-                        'driver' => 'test',
-                    ],
+                    'storage' => ['driver' => 'test'],
                 ],
             ],
             []
         );
     }
 
-    public function testMissingCustomStorageService()
+    public function testMissingCustomStorageService(): void
     {
         $this->expectException(InvalidConfigurationException::class);
+        // phpcs:ignore Generic.Files.LineLength.TooLong
         $this->expectExceptionMessage('Invalid configuration for path "brainbits_blocking": You need to specify your own storage service when using the "custom" storage driver.');
 
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'storage' => [
-                        'driver' => 'custom',
-                    ],
+                    'storage' => ['driver' => 'custom'],
                 ],
             ],
             []
         );
     }
 
-    public function testCustomStorageService()
+    public function testCustomStorageService(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -147,9 +145,7 @@ class ConfigurationTest extends TestCase
                     'storage_dir' => '%kernel.cache_dir%/blocking/',
                     'service' => 'foo',
                 ],
-                'owner_factory' => [
-                    'driver' => 'symfony_session',
-                ],
+                'owner_factory' => ['driver' => 'symfony_session'],
                 'validator' => [
                     'driver' => 'expired',
                     'expiration_time' => 300,
@@ -159,40 +155,37 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    public function testInvalidOwnerDriver()
+    public function testInvalidOwnerDriver(): void
     {
         $this->expectException(InvalidConfigurationException::class);
 
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'owner_factory' => [
-                        'driver' => 'test',
-                    ],
+                    'owner_factory' => ['driver' => 'test'],
                 ],
             ],
             []
         );
     }
 
-    public function testMissingCustomOwnerService()
+    public function testMissingCustomOwnerService(): void
     {
         $this->expectException(InvalidConfigurationException::class);
+        // phpcs:ignore Generic.Files.LineLength.TooLong
         $this->expectExceptionMessage('Invalid configuration for path "brainbits_blocking": You need to specify your own owner_factory service when using the "custom" owner_factory driver.');
 
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'owner_factory' => [
-                        'driver' => 'custom',
-                    ],
+                    'owner_factory' => ['driver' => 'custom'],
                 ],
             ],
             []
         );
     }
 
-    public function testCustomOwnerService()
+    public function testCustomOwnerService(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -221,41 +214,39 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    public function testInvalidValidatorDriver()
+    public function testInvalidValidatorDriver(): void
     {
         $this->expectException(InvalidConfigurationException::class);
+        // phpcs:ignore Generic.Files.LineLength.TooLong
         $this->expectExceptionMessage('Invalid configuration for path "brainbits_blocking.validator.driver": The validator driver "test" is not supported. Please choose one of ["expired","always_invalidate","custom"]');
 
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'validator' => [
-                        'driver' => 'test',
-                    ],
+                    'validator' => ['driver' => 'test'],
                 ],
             ],
             []
         );
     }
 
-    public function testMissingCustomValidatorService()
+    public function testMissingCustomValidatorService(): void
     {
         $this->expectException(InvalidConfigurationException::class);
+        // phpcs:ignore Generic.Files.LineLength.TooLong
         $this->expectExceptionMessage('Invalid configuration for path "brainbits_blocking": You need to specify your own validator service when using the "custom" validator driver.');
 
         $this->assertProcessedConfigurationEquals(
             [
                 [
-                    'validator' => [
-                        'driver' => 'custom',
-                    ],
+                    'validator' => ['driver' => 'custom'],
                 ],
             ],
             []
         );
     }
 
-    public function testCustomValidatorService()
+    public function testCustomValidatorService(): void
     {
         $this->assertProcessedConfigurationEquals(
             [
@@ -271,9 +262,7 @@ class ConfigurationTest extends TestCase
                     'driver' => 'filesystem',
                     'storage_dir' => '%kernel.cache_dir%/blocking/',
                 ],
-                'owner_factory' => [
-                    'driver' => 'symfony_session',
-                ],
+                'owner_factory' => ['driver' => 'symfony_session'],
                 'validator' => [
                     'driver' => 'custom',
                     'service' => 'foo',

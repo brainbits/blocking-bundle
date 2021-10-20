@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the brainbits blocking bundle package.
  *
@@ -19,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class BrainbitsBlockingBundleTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $bundle = new BrainbitsBlockingBundle();
 

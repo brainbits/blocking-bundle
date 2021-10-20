@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the brainbits blocking bundle package.
  *
@@ -11,9 +13,7 @@
 
 namespace Brainbits\BlockingBundle\Tests\DependencyInjection;
 
-use Brainbits\Blocking\Owner\SymfonySessionOwner;
 use Brainbits\Blocking\Owner\SymfonySessionOwnerFactory;
-use Brainbits\Blocking\Owner\ValueOwner;
 use Brainbits\Blocking\Owner\ValueOwnerFactory;
 use Brainbits\Blocking\Storage\FilesystemStorage;
 use Brainbits\Blocking\Storage\InMemoryStorage;
@@ -26,14 +26,15 @@ use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
  */
 class BrainbitsBlockingExtensionTest extends AbstractExtensionTestCase
 {
-    protected function getContainerExtensions()
+    /**
+     * @inheritDoc
+     */
+    protected function getContainerExtensions(): array
     {
-        return [
-            new BrainbitsBlockingExtension()
-        ];
+        return [new BrainbitsBlockingExtension()];
     }
 
-    public function testContainerHasDefaultParameters()
+    public function testContainerHasDefaultParameters(): void
     {
         $this->load();
 
@@ -44,19 +45,15 @@ class BrainbitsBlockingExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('brainbits_blocking.interval', 30);
     }
 
-    public function testContainerHasCustomParameters()
+    public function testContainerHasCustomParameters(): void
     {
         $this->load([
-            'storage' => [
-                'driver' => 'in_memory',
-            ],
+            'storage' => ['driver' => 'in_memory'],
             'owner_factory' => [
                 'driver' => 'value',
                 'value' => 'xx',
             ],
-            'validator' => [
-                'expiration_time' => 8,
-            ],
+            'validator' => ['expiration_time' => 8],
             'block_interval' => 9,
         ]);
 
@@ -67,7 +64,7 @@ class BrainbitsBlockingExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('brainbits_blocking.interval', 9);
     }
 
-    public function testCustomerStorageService()
+    public function testCustomerStorageService(): void
     {
         $this->load([
             'storage' => [
@@ -79,7 +76,7 @@ class BrainbitsBlockingExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasAlias('brainbits_blocking.storage', 'foo');
     }
 
-    public function testCustomOwnerService()
+    public function testCustomOwnerService(): void
     {
         $this->load([
             'owner_factory' => [
@@ -91,7 +88,7 @@ class BrainbitsBlockingExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasAlias('brainbits_blocking.owner_factory', 'bar');
     }
 
-    public function testCustomValidatorService()
+    public function testCustomValidatorService(): void
     {
         $this->load([
             'validator' => [

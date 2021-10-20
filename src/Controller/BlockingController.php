@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class BlockingController
 {
-    private $blocker;
+    private Blocker $blocker;
 
     public function __construct(Blocker $blocker)
     {
