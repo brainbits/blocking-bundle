@@ -16,6 +16,8 @@ namespace Brainbits\BlockingBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+use function json_encode;
+
 /**
  * Blocking configuration.
  */
@@ -23,13 +25,14 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('brainbits_blocking');
+        $treeBuilder = new TreeBuilder('brainbits_blocking');
+        $rootNode = $treeBuilder->getRootNode();
 
         $storageDrivers = ['filesystem', 'in_memory', 'custom'];
         $ownerFactoryDrivers = ['symfony_session', 'symfony_token', 'value', 'custom'];
         $validatorDrivers = ['expired', 'always_invalidate', 'custom'];
 
+        // @phpstan-ignore-next-line
         $rootNode
             ->children()
                 ->integerNode('block_interval')->defaultValue(30)->end()
@@ -39,7 +42,10 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('driver')
                             ->validate()
                                 ->ifNotInArray($storageDrivers)
-                                ->thenInvalid('The storage driver %s is not supported. Please choose one of '.json_encode($storageDrivers))
+                                ->thenInvalid(
+                                    'The storage driver %s is not supported. Please choose one of ' .
+                                    json_encode($storageDrivers)
+                                )
                             ->end()
                             ->defaultValue('filesystem')
                             ->cannotBeEmpty()
@@ -54,7 +60,10 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('driver')
                             ->validate()
                                 ->ifNotInArray($ownerFactoryDrivers)
-                                ->thenInvalid('The owner_factory driver %s is not supported. Please choose one of '.json_encode($ownerFactoryDrivers))
+                                ->thenInvalid(
+                                    'The owner_factory driver %s is not supported. Please choose one of ' .
+                                    json_encode($ownerFactoryDrivers)
+                                )
                             ->end()
                             ->defaultValue('symfony_session')
                             ->cannotBeEmpty()
@@ -69,7 +78,10 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('driver')
                             ->validate()
                                 ->ifNotInArray($validatorDrivers)
-                                ->thenInvalid('The validator driver %s is not supported. Please choose one of '.json_encode($validatorDrivers))
+                                ->thenInvalid(
+                                    'The validator driver %s is not supported. Please choose one of ' .
+                                    json_encode($validatorDrivers)
+                                )
                             ->end()
                             ->defaultValue('expired')
                             ->cannotBeEmpty()
@@ -80,22 +92,26 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
             ->validate()
-                ->ifTrue(function ($v) {
-                    return 'custom' === $v['storage']['driver'] && empty($v['storage']['service']);
+                ->ifTrue(static function ($v) {
+                    return $v['storage']['driver'] === 'custom' && empty($v['storage']['service']);
                 })
                 ->thenInvalid('You need to specify your own storage service when using the "custom" storage driver.')
             ->end()
             ->validate()
-                ->ifTrue(function ($v) {
-                    return 'custom' === $v['owner_factory']['driver'] && empty($v['owner_factory']['service']);
+                ->ifTrue(static function ($v) {
+                    return $v['owner_factory']['driver'] === 'custom' && empty($v['owner_factory']['service']);
                 })
-                ->thenInvalid('You need to specify your own owner_factory service when using the "custom" owner_factory driver.')
+                ->thenInvalid(
+                    'You need to specify your own owner_factory service when using the "custom" owner_factory driver.'
+                )
             ->end()
             ->validate()
-                ->ifTrue(function ($v) {
-                    return 'custom' === $v['validator']['driver'] && empty($v['validator']['service']);
+                ->ifTrue(static function ($v) {
+                    return $v['validator']['driver'] === 'custom' && empty($v['validator']['service']);
                 })
-                ->thenInvalid('You need to specify your own validator service when using the "custom" validator driver.')
+                ->thenInvalid(
+                    'You need to specify your own validator service when using the "custom" validator driver.'
+                )
             ->end();
 
         return $treeBuilder;
