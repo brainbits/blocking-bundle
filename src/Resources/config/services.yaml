@@ -1,10 +1,4 @@
 services:
-    Brainbits\BlockingBundle\Controller\:
-        resource: '../../Controller'
-        public: true
-        bind:
-            $blocker: '@brainbits_blocking.blocker'
-
     brainbits_blocking.filesystem_storage:
         class: Brainbits\Blocking\Storage\FilesystemStorage
         arguments:
@@ -16,3 +10,11 @@ services:
             - '@brainbits_blocking.storage'
             - '@brainbits_blocking.owner_factory'
             - '@brainbits_blocking.validator'
+
+
+    brainbits_blocking.controller:
+        class: Brainbits\BlockingBundle\Controller\BlockingController
+        public: true
+        arguments:
+            - '@brainbits_blocking.blocker'
+
