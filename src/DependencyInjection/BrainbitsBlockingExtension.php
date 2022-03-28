@@ -17,6 +17,7 @@ use InvalidArgumentException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 use function sprintf;
@@ -31,9 +32,9 @@ class BrainbitsBlockingExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.xml');
-
+        $xmlLoader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $yamlLoader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $yamlLoader->load('services.yaml');
         $configuration = $this->getConfiguration($configs, $container);
 
         if ($configuration === null) {
@@ -66,19 +67,19 @@ class BrainbitsBlockingExtension extends Extension
         }
 
         if ($config['validator']['driver'] !== 'custom') {
-            $loader->load(sprintf('validator/%s.xml', $config['validator']['driver']));
+            $xmlLoader->load(sprintf('validator/%s.xml', $config['validator']['driver']));
         } else {
             $container->setAlias('brainbits_blocking.validator', $config['validator']['service']);
         }
 
         if ($config['storage']['driver'] !== 'custom') {
-            $loader->load(sprintf('storage/%s.xml', $config['storage']['driver']));
+            $xmlLoader->load(sprintf('storage/%s.xml', $config['storage']['driver']));
         } else {
             $container->setAlias('brainbits_blocking.storage', $config['storage']['service']);
         }
 
         if ($config['owner_factory']['driver'] !== 'custom') {
-            $loader->load(sprintf('owner_factory/%s.xml', $config['owner_factory']['driver']));
+            $xmlLoader->load(sprintf('owner_factory/%s.xml', $config['owner_factory']['driver']));
         } else {
             $container->setAlias('brainbits_blocking.owner_factory', $config['owner_factory']['service']);
         }

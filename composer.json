@@ -16,7 +16,8 @@
         "symfony/config": ">=4.4.12",
         "symfony/dependency-injection": ">=4.4.12",
         "symfony/http-kernel": ">=4.4",
-        "symfony/routing": ">=4.4"
+        "symfony/routing": ">=4.4",
+        "ext-json": "*"
     },
     "require-dev": {
         "brainbits/phpcs-standard": "^5.0",
@@ -33,7 +34,10 @@
         "psr-4": { "Brainbits\\BlockingBundle\\": "src/" }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "branch-alias": {
