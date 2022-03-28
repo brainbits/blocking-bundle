@@ -1,0 +1,18 @@
+services:
+    Brainbits\BlockingBundle\Controller\:
+        resource: '../../Controller'
+        public: true
+        bind:
+            $blocker: '@brainbits_blocking.blocker'
+
+    brainbits_blocking.filesystem_storage:
+        class: Brainbits\Blocking\Storage\FilesystemStorage
+        arguments:
+            - '%kernel.cache_dir%/blocks/'
+
+    brainbits_blocking.blocker:
+        class: Brainbits\Blocking\Blocker
+        arguments:
+            - '@brainbits_blocking.storage'
+            - '@brainbits_blocking.owner_factory'
+            - '@brainbits_blocking.validator'
