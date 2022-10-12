@@ -17,10 +17,7 @@ use Brainbits\Blocking\Blocker;
 use Brainbits\Blocking\Identity\Identity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-/**
- * Blocking controller.
- */
-class BlockingController
+final class BlockingController
 {
     private Blocker $blocker;
 
