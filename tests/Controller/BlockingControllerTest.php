@@ -57,9 +57,9 @@ class BlockingControllerTest extends TestCase
 
         $this->assertInstanceOf(JsonResponse::class, $response);
 
-        $result = json_decode((string) $response->getContent(), true);
+        $result = (array) json_decode((string) $response->getContent(), true);
 
-        $this->assertTrue($result['success']);
+        $this->assertTrue($result['success'] ?? null);
     }
 
     public function testBlockFailureAction(): void
@@ -68,9 +68,9 @@ class BlockingControllerTest extends TestCase
 
         $this->assertInstanceOf(JsonResponse::class, $response);
 
-        $result = json_decode((string) $response->getContent(), true);
+        $result = (array) json_decode((string) $response->getContent(), true);
 
-        $this->assertFalse($result['success']);
+        $this->assertFalse($result['success'] ?? null);
     }
 
     public function testUnblockSuccessAction(): void
@@ -79,9 +79,9 @@ class BlockingControllerTest extends TestCase
 
         $this->assertInstanceOf(JsonResponse::class, $response);
 
-        $result = json_decode((string) $response->getContent(), true);
+        $result = (array) json_decode((string) $response->getContent(), true);
 
-        $this->assertTrue($result['success']);
+        $this->assertTrue($result['success'] ?? null);
     }
 
     public function testUnblockFailureAction(): void
@@ -90,8 +90,8 @@ class BlockingControllerTest extends TestCase
 
         $this->assertInstanceOf(JsonResponse::class, $response);
 
-        $result = json_decode((string) $response->getContent(), true);
+        $result = (array) json_decode((string) $response->getContent(), true);
 
-        $this->assertFalse($result['success']);
+        $this->assertFalse($result['success'] ?? null);
     }
 }

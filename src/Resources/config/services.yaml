@@ -14,7 +14,7 @@ services:
 
     brainbits_blocking.controller:
         class: Brainbits\BlockingBundle\Controller\BlockingController
-        public: true
+        tags: ['controller.service_arguments']
         arguments:
             - '@brainbits_blocking.blocker'
 
