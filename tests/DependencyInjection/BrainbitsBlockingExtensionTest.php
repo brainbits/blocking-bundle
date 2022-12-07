@@ -26,9 +26,7 @@ use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
  */
 class BrainbitsBlockingExtensionTest extends AbstractExtensionTestCase
 {
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     protected function getContainerExtensions(): array
     {
         return [new BrainbitsBlockingExtension()];

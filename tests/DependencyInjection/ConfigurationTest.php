@@ -35,7 +35,7 @@ class ConfigurationTest extends TestCase
         $this->assertConfigurationIsValid(
             [
                 [], // no values at all
-            ]
+            ],
         );
     }
 
@@ -56,7 +56,7 @@ class ConfigurationTest extends TestCase
                     'expiration_time' => 300,
                 ],
                 'block_interval' => 30,
-            ]
+            ],
         );
     }
 
@@ -94,7 +94,7 @@ class ConfigurationTest extends TestCase
                     'expiration_time' => 99,
                 ],
                 'block_interval' => 88,
-            ]
+            ],
         );
     }
 
@@ -108,7 +108,7 @@ class ConfigurationTest extends TestCase
                     'storage' => ['driver' => 'test'],
                 ],
             ],
-            []
+            [],
         );
     }
 
@@ -124,7 +124,7 @@ class ConfigurationTest extends TestCase
                     'storage' => ['driver' => 'custom'],
                 ],
             ],
-            []
+            [],
         );
     }
 
@@ -151,7 +151,7 @@ class ConfigurationTest extends TestCase
                     'expiration_time' => 300,
                 ],
                 'block_interval' => 30,
-            ]
+            ],
         );
     }
 
@@ -165,7 +165,7 @@ class ConfigurationTest extends TestCase
                     'owner_factory' => ['driver' => 'test'],
                 ],
             ],
-            []
+            [],
         );
     }
 
@@ -181,7 +181,7 @@ class ConfigurationTest extends TestCase
                     'owner_factory' => ['driver' => 'custom'],
                 ],
             ],
-            []
+            [],
         );
     }
 
@@ -210,7 +210,7 @@ class ConfigurationTest extends TestCase
                     'expiration_time' => 300,
                 ],
                 'block_interval' => 30,
-            ]
+            ],
         );
     }
 
@@ -226,7 +226,7 @@ class ConfigurationTest extends TestCase
                     'validator' => ['driver' => 'test'],
                 ],
             ],
-            []
+            [],
         );
     }
 
@@ -242,7 +242,7 @@ class ConfigurationTest extends TestCase
                     'validator' => ['driver' => 'custom'],
                 ],
             ],
-            []
+            [],
         );
     }
 
@@ -269,7 +269,7 @@ class ConfigurationTest extends TestCase
                     'expiration_time' => 300,
                 ],
                 'block_interval' => 30,
-            ]
+            ],
         );
     }
 }

@@ -39,13 +39,13 @@ class BlockingControllerTest extends TestCase
         $block = new Block(
             new Identity('foo'),
             new Owner('baz'),
-            new DateTimeImmutable()
+            new DateTimeImmutable(),
         );
 
         $blocker = new Blocker(
             new InMemoryStorage($block),
             new ValueOwnerFactory('bar'),
-            new ExpiredValidator(10)
+            new ExpiredValidator(10),
         );
 
         $this->controller = new BlockingController($blocker);
