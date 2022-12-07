@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
                                 ->ifNotInArray($storageDrivers)
                                 ->thenInvalid(
                                     'The storage driver %s is not supported. Please choose one of ' .
-                                    json_encode($storageDrivers)
+                                    json_encode($storageDrivers),
                                 )
                             ->end()
                             ->defaultValue('filesystem')
@@ -62,7 +62,7 @@ class Configuration implements ConfigurationInterface
                                 ->ifNotInArray($ownerFactoryDrivers)
                                 ->thenInvalid(
                                     'The owner_factory driver %s is not supported. Please choose one of ' .
-                                    json_encode($ownerFactoryDrivers)
+                                    json_encode($ownerFactoryDrivers),
                                 )
                             ->end()
                             ->defaultValue('symfony_session')
@@ -80,7 +80,7 @@ class Configuration implements ConfigurationInterface
                                 ->ifNotInArray($validatorDrivers)
                                 ->thenInvalid(
                                     'The validator driver %s is not supported. Please choose one of ' .
-                                    json_encode($validatorDrivers)
+                                    json_encode($validatorDrivers),
                                 )
                             ->end()
                             ->defaultValue('expired')
@@ -102,7 +102,7 @@ class Configuration implements ConfigurationInterface
                     return $v['owner_factory']['driver'] === 'custom' && empty($v['owner_factory']['service']);
                 })
                 ->thenInvalid(
-                    'You need to specify your own owner_factory service when using the "custom" owner_factory driver.'
+                    'You need to specify your own owner_factory service when using the "custom" owner_factory driver.',
                 )
             ->end()
             ->validate()
@@ -110,7 +110,7 @@ class Configuration implements ConfigurationInterface
                     return $v['validator']['driver'] === 'custom' && empty($v['validator']['service']);
                 })
                 ->thenInvalid(
-                    'You need to specify your own validator service when using the "custom" validator driver.'
+                    'You need to specify your own validator service when using the "custom" validator driver.',
                 )
             ->end();
 

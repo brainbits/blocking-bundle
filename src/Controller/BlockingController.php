@@ -19,11 +19,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class BlockingController
 {
-    private Blocker $blocker;
-
-    public function __construct(Blocker $blocker)
+    public function __construct(private Blocker $blocker)
     {
-        $this->blocker = $blocker;
     }
 
     public function blockAction(string $identifier): JsonResponse

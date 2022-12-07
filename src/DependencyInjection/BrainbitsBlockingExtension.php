@@ -27,9 +27,7 @@ use function sprintf;
  */
 class BrainbitsBlockingExtension extends Extension
 {
-    /**
-     * @param array<int, mixed> $configs
-     */
+    /** @param array<int, mixed> $configs */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $xmlLoader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
@@ -47,21 +45,21 @@ class BrainbitsBlockingExtension extends Extension
         if (isset($config['storage']['storage_dir'])) {
             $container->setParameter(
                 'brainbits_blocking.storage.storage_dir',
-                $config['storage']['storage_dir']
+                $config['storage']['storage_dir'],
             );
         }
 
         if (isset($config['owner_factory']['value'])) {
             $container->setParameter(
                 'brainbits_blocking.owner_factory.value',
-                $config['owner_factory']['value']
+                $config['owner_factory']['value'],
             );
         }
 
         if (isset($config['validator']['expiration_time'])) {
             $container->setParameter(
                 'brainbits_blocking.validator.expiration_time',
-                $config['validator']['expiration_time']
+                $config['validator']['expiration_time'],
             );
             $container->setParameter('brainbits_blocking.interval', $config['block_interval']);
         }
