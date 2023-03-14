@@ -7,7 +7,7 @@
     <services>
 
         <service id="brainbits_blocking.owner_factory" class="Brainbits\Blocking\Owner\ValueOwnerFactory">
-            <argument>%brainbits_blocking.owner.value%</argument>
+            <argument>%brainbits_blocking.owner_factory.value%</argument>
         </service>
 
     </services>
