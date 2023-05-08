@@ -7,4 +7,3 @@ parameters:
         - vendor/autoload.php
 includes:
     - vendor/brainbits/phpstan-rules/rules.neon
-    - vendor/jangregor/phpstan-prophecy/extension.neon
