@@ -22,7 +22,7 @@
     "require-dev": {
         "brainbits/phpcs-standard": "^7.0",
         "brainbits/phpstan-rules": "^3.0",
-        "matthiasnoback/symfony-config-test": "^4.3",
+        "matthiasnoback/symfony-config-test": "^5.0",
         "matthiasnoback/symfony-dependency-injection-test": "^4.3",
         "phpstan/phpstan": "^1.0",
         "phpunit/phpunit": "^10.0"
