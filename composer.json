@@ -13,7 +13,7 @@
     "require": {
         "php": "^8.1",
         "ext-json": "*",
-        "brainbits/blocking": "^4.1.0",
+        "brainbits/blocking": "^5.0.0",
         "symfony/config": "^6.0",
         "symfony/dependency-injection": "^6.0",
         "symfony/http-kernel": "^6.0",
